@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
 
 import AuthRoutes from './auth.routes';
 import AppRoutes from './app.routes';
@@ -9,9 +9,11 @@ import { useAuth } from '../hooks/auth';
 const Routes: React.FC = () => {
   const { user, loading } = useAuth();
 
+  console.log(loading);
+
   if (loading) {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={styles.IndicatorContainer}>
         <ActivityIndicator size="large" />
       </View>
     );
@@ -19,5 +21,13 @@ const Routes: React.FC = () => {
 
   return user.logged_in ? <AppRoutes /> : <AuthRoutes />;
 };
+
+const styles = StyleSheet.create({
+  IndicatorContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default Routes;
