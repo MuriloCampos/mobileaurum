@@ -53,7 +53,7 @@ const SignIn: React.FC = () => {
         )}
         name="password"
         rules={{ required: true }}
-        defaultValue={user.email}
+        defaultValue=""
       />
 
       {response !== '' && <ErrorText>Usuário ou senha incorretos</ErrorText>}
