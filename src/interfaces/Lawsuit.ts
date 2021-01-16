@@ -1,6 +1,3 @@
-/* eslint-disable semi */
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-extra-semi */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Customer from './Customer';
 import Historical from './Historical';

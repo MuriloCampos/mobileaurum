@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useForm, Controller } from 'react-hook-form';
 
 // import useLawsuits from '../../hooks/useLawsuits';
+// eslint-disable @typescript-eslint/no-unused-vars
 import LawsuitInterface from '../../interfaces/Lawsuit';
 import TextInput from '../../components/TextInput';
 
@@ -16,17 +17,15 @@ import {
   ItemSeparator,
   HeaderContainer,
   HeaderTitle,
-  SearchContainer,
 } from './styles';
 
 interface LawsuitItemProps {
   item: LawsuitInterface;
 }
 
-interface ListHeaderComponentProps {
-  query: string;
-  setQuery(newQuery: string): void;
-}
+type FormData = {
+  search: string;
+};
 
 const data = {
   cases: [
@@ -670,18 +669,16 @@ const data = {
 const lawsuits: LawsuitInterface[] = data.cases;
 
 const LawsuitList: React.FC = () => {
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm<FormData>();
   const [filteredData, setFilteredData] = useState<LawsuitInterface[]>([]);
   const [search, setSearch] = useState('');
   const [isSearching, setIsSearching] = useState(false);
 
-  const onSubmit = formData => {
-    console.log('chamou');
+  const onSubmit = (formData: FormData) => {
     setSearch(formData.search);
   };
 
   useEffect(() => {
-    console.log(search);
     if (search !== '') {
       const filtered = lawsuits.filter(str => {
         return str.title.toUpperCase().indexOf(search.toUpperCase()) !== -1;

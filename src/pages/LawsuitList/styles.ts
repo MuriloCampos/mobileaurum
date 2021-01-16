@@ -45,7 +45,3 @@ export const HeaderTitle = styled.Text`
   font-weight: 500;
   color: #484f57;
 `;
-
-export const SearchContainer = styled.View`
-  width: 85%;
-`;

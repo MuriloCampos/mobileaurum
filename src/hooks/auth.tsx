@@ -65,8 +65,6 @@ export const AuthProvider: React.FC = ({ children }) => {
       const storedSecureData = await Keychain.getGenericPassword();
       setLoading(false);
 
-      console.log(storedSecureData);
-
       if (storedSecureData) {
         setData(() => {
           const newUser = {
