@@ -3,12 +3,9 @@ import Modal from 'react-native-modal';
 import { Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Container, ModalOption } from './styles';
+import colors from '../../utils/colors';
 
-interface OrderType {
-  sort: 'date' | 'description';
-  order: 'asc' | 'desc';
-}
+import { Container, ModalOption } from './styles';
 
 interface ModalProps {
   modalVisible: boolean;
@@ -49,14 +46,14 @@ const OrderByModal: React.FC<ModalProps> = props => {
       backdropTransitionOutTiming={0}
       onBackButtonPress={() => setModalVisible(false)}
       backdropOpacity={0.8}
-      backdropColor="#fff"
+      backdropColor={colors.white}
     >
       <Container>
         <ModalOption onPress={() => handleSortChange('date')}>
           <Icon
             name="done"
             size={25}
-            color={sort === 'date' ? '#009ef5' : '#fff'}
+            color={sort === 'date' ? colors.lightBlue : colors.white}
             style={styles.check}
           />
           <Text>Ordernar por data</Text>
@@ -65,7 +62,7 @@ const OrderByModal: React.FC<ModalProps> = props => {
           <Icon
             name="done"
             size={25}
-            color={sort === 'description' ? '#009ef5' : '#fff'}
+            color={sort === 'description' ? colors.lightBlue : colors.white}
             style={styles.check}
           />
           <Text>Ordernar por descrição</Text>
@@ -74,7 +71,7 @@ const OrderByModal: React.FC<ModalProps> = props => {
           <Icon
             name="done"
             size={25}
-            color={order === 'asc' ? '#009ef5' : '#fff'}
+            color={order === 'asc' ? colors.lightBlue : colors.white}
             style={styles.check}
           />
           <Text>Crescente</Text>
@@ -83,7 +80,7 @@ const OrderByModal: React.FC<ModalProps> = props => {
           <Icon
             name="done"
             size={25}
-            color={order === 'desc' ? '#009ef5' : '#fff'}
+            color={order === 'desc' ? colors.lightBlue : colors.white}
             style={styles.check}
           />
           <Text>Decrescente</Text>

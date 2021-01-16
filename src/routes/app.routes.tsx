@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import LawsuitList from '../pages/LawsuitList';
 import LawsuitDetails from '../pages/LawsuitDetails';
 import Profile from '../pages/Profile';
+import colors from '../utils/colors';
 
 const AppNavigation = createBottomTabNavigator();
 const LawsuitsStack = createStackNavigator();
@@ -16,14 +17,17 @@ const LawsuitRoutes: React.FC = () => {
       <LawsuitsStack.Screen
         name="lawsuits"
         component={LawsuitList}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: false,
+          cardStyle: { backgroundColor: colors.white },
+        }}
       />
       <LawsuitsStack.Screen
         name="lawsuit_details"
         component={LawsuitDetails}
         options={{
           headerTitle: 'PROCESSO',
-          cardStyle: { backgroundColor: '#fff' },
+          cardStyle: { backgroundColor: colors.white },
         }}
       />
     </LawsuitsStack.Navigator>
@@ -34,9 +38,9 @@ const AppRoutes: React.FC = () => {
   return (
     <AppNavigation.Navigator
       tabBarOptions={{
-        activeBackgroundColor: '#484f57',
-        inactiveBackgroundColor: '#484f57',
-        activeTintColor: '#009ef5',
+        activeBackgroundColor: colors.darkGrey,
+        inactiveBackgroundColor: colors.darkGrey,
+        activeTintColor: colors.lightBlue,
         labelPosition: 'beside-icon',
       }}
     >
