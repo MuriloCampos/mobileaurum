@@ -49,7 +49,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
       await Keychain.setGenericPassword(
         credentials.username,
-        credentials.password,
+        credentials.password
       );
 
       setData({ user });
