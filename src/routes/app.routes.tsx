@@ -1,15 +1,43 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import LawsuitList from '../pages/LawsuitList';
+import LawsuitDetails from '../pages/LawsuitDetails';
 import Profile from '../pages/Profile';
 
 const AppNavigation = createBottomTabNavigator();
-// const LawsuitsStack = createStackNavigator();
+const LawsuitsStack = createStackNavigator();
 
-const routes: React.FC = () => {
+const HeaderRightButton: React.FC = () => (
+  <TouchableOpacity style={{ marginRight: 25 }}>
+    <Icon name="attach-file" size={25} color="#009ef5" />
+  </TouchableOpacity>
+)
+
+const LawsuitRoutes: React.FC = () => {
+  return (
+    <LawsuitsStack.Navigator>
+      <LawsuitsStack.Screen
+        name="lawsuits"
+        component={LawsuitList}
+        options={{ headerShown: false }}
+      />
+      <LawsuitsStack.Screen
+        name="lawsuit_details"
+        component={LawsuitDetails}
+        options={{
+          headerTitle: 'PROCESSO',
+          headerRight: () => <HeaderRightButton />,
+          cardStyle: { backgroundColor: '#fff' } }}
+      />
+    </LawsuitsStack.Navigator>
+  )
+}
+
+const AppRoutes: React.FC = () => {
   return (
     <AppNavigation.Navigator
       tabBarOptions={{
@@ -20,8 +48,8 @@ const routes: React.FC = () => {
       }}
     >
       <AppNavigation.Screen
-        name="lawsuits"
-        component={LawsuitList}
+        name="LawsuitsRoutes"
+        component={LawsuitRoutes}
         options={{
           tabBarLabel: 'PROCESSOS',
           tabBarIcon: ({ color, size }) => (
@@ -43,4 +71,4 @@ const routes: React.FC = () => {
   );
 };
 
-export default routes;
+export default AppRoutes;

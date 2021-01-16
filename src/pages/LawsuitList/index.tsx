@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useForm, Controller } from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native';
 
 // import useLawsuits from '../../hooks/useLawsuits';
 // eslint-disable @typescript-eslint/no-unused-vars
 import LawsuitInterface from '../../interfaces/Lawsuit';
 import TextInput from '../../components/TextInput';
+import Title from '../../components/Title';
+import InfoLabelText from '../../components/InfoLabelText';
+import InfoText from '../../components/InfoText';
+import ItemSeparator from '../../components/ItemSeparator';
 
 import {
   Container,
   ItemContainer,
-  LawsuitTitle,
-  NumberLabelText,
-  LawsuitNumber,
-  ItemSeparator,
   HeaderContainer,
   HeaderTitle,
 } from './styles';
@@ -673,6 +674,7 @@ const LawsuitList: React.FC = () => {
   const [filteredData, setFilteredData] = useState<LawsuitInterface[]>([]);
   const [search, setSearch] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const navigation = useNavigation();
 
   const onSubmit = (formData: FormData) => {
     setSearch(formData.search);
@@ -695,6 +697,7 @@ const LawsuitList: React.FC = () => {
   //     console.log(JSON.stringify(data.cases, null, 2));
   //   }
   // }, [data]);
+
 
   const ListHeaderComponent = () => (
     <HeaderContainer>
@@ -738,10 +741,10 @@ const LawsuitList: React.FC = () => {
   );
 
   const LawsuitItem: React.FC<LawsuitItemProps> = ({ item }) => (
-    <ItemContainer>
-      <LawsuitTitle>{item.title}</LawsuitTitle>
-      <NumberLabelText>Número</NumberLabelText>
-      <LawsuitNumber>{item.number}</LawsuitNumber>
+    <ItemContainer onPress={() => navigation.navigate('lawsuit_details', { lawsuitData: item })}>
+      <Title>{item.title}</Title>
+      <InfoLabelText>Número</InfoLabelText>
+      <InfoText>{item.number}</InfoText>
     </ItemContainer>
   );
 

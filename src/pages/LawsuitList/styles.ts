@@ -26,12 +26,6 @@ export const LawsuitNumber = styled.Text`
   color: #484f57;
 `;
 
-export const ItemSeparator = styled.View`
-  height: 0.8px;
-  width: 100%;
-  background-color: #d3d3d3;
-`;
-
 export const HeaderContainer = styled.View`
   height: 100px;
   flex-direction: row;
