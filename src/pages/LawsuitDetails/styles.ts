@@ -63,3 +63,21 @@ export const OrderOptions = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
 `;
+
+export const FileInfoContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const FileInfoBox = styled.View`
+  background-color: #009ef5;
+  padding: 8px;
+  border-radius: 5px;
+  margin-right: 5px;
+`;
+
+export const FileInfoText = styled.Text`
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+`;

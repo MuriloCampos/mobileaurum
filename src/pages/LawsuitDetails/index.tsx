@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useRoute, RouteProp } from '@react-navigation/native';
-import { FlatList, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import NumberFormat from 'react-number-format';
 import { format, getYear, parseISO, isBefore } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FaIcon from 'react-native-vector-icons/FontAwesome';
+import DocumentPicker from 'react-native-document-picker';
 
 import LawsuitInterface from '../../interfaces/Lawsuit';
 import HistoricalInterface from '../../interfaces/Historical';
@@ -27,6 +28,9 @@ import {
   HistoricalDescriptionText,
   HistoricalHeaderContainer,
   OrderOptions,
+  FileInfoContainer,
+  FileInfoBox,
+  FileInfoText,
 } from './styles';
 
 interface Item {
@@ -42,6 +46,11 @@ interface LawsuitHistoricalItemProps {
   itemData: HistoricalInterface;
 }
 
+interface FileType {
+  uri: string;
+  name: string;
+}
+
 type RouteParams = {
   data: {
     lawsuitData: LawsuitInterface;
@@ -49,12 +58,46 @@ type RouteParams = {
 };
 
 const LawsuitDetails: React.FC = () => {
+  const navigation = useNavigation();
   const routeParams = useRoute<RouteProp<RouteParams, 'data'>>();
   const { lawsuitData } = routeParams.params;
   const [orderedData, setOrderedData] = useState<LawsuitInterface>(lawsuitData);
   const [sort, setSort] = useState<'date' | 'description'>('date');
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [orderByModalVisible, setOrderByModalVisible] = useState(false);
+  const [file, setFile] = useState<FileType>();
+
+  const handleDocumentPick = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.images, DocumentPicker.types.pdf],
+      });
+      setFile({
+        name: res.name,
+        uri: res.uri,
+      });
+    } catch (err) {
+      if (!DocumentPicker.isCancel(err)) {
+        throw err;
+      }
+    }
+  };
+
+  const HeaderRightButton = useCallback(
+    () => (
+      <TouchableOpacity
+        style={styles.headerButton}
+        onPress={handleDocumentPick}
+      >
+        <Icon name="attach-file" size={25} color="#009ef5" />
+      </TouchableOpacity>
+    ),
+    []
+  );
+
+  useEffect(() => {
+    navigation.setOptions({ headerRight: () => <HeaderRightButton /> });
+  }, [navigation]);
 
   useEffect(() => {
     if (sort === 'date') {
@@ -128,6 +171,24 @@ const LawsuitDetails: React.FC = () => {
           renderText={formattedValue => <InfoText>{formattedValue}</InfoText>}
         />
       </InfoLineSpacing>
+
+      {file && (
+        <InfoLineSpacing>
+          <InfoLabelText>Anexo</InfoLabelText>
+          <FileInfoContainer>
+            <FileInfoBox>
+              <FileInfoText>
+                {`${file.name.split('.')[0].slice(0, 20)}.${
+                  file.name.split('.')[1]
+                }`}
+              </FileInfoText>
+            </FileInfoBox>
+            <TouchableOpacity onPress={() => setFile(undefined)}>
+              <Icon name="close" size={25} />
+            </TouchableOpacity>
+          </FileInfoContainer>
+        </InfoLineSpacing>
+      )}
     </InfoContainer>
   );
 
@@ -222,6 +283,9 @@ const styles = StyleSheet.create({
   },
   title: {
     textTransform: 'capitalize',
+  },
+  headerButton: {
+    marginRight: 25,
   },
 });
 
