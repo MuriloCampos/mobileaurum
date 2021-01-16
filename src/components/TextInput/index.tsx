@@ -6,10 +6,18 @@ import { StyledTextInput } from './styles';
 
 interface StyledTextInputProps extends TextInputProps {
   isActive?: boolean;
+  width?: number | string;
+  height?: number;
+  marginBottom?: number;
 }
 
 const TextInput: React.FC<StyledTextInputProps> = props => {
-  return <StyledTextInput {...props} />;
+  return (
+    <StyledTextInput
+      style={{ width: props.width, height: props.height }}
+      {...props}
+    />
+  );
 };
 
 export default TextInput;

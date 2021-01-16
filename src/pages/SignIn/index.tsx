@@ -32,6 +32,7 @@ const SignIn: React.FC = () => {
             onBlur={onBlur}
             onChangeText={newValue => onChange(newValue)}
             value={value}
+            marginBottom={15}
           />
         )}
         name="username"
@@ -48,6 +49,7 @@ const SignIn: React.FC = () => {
             onBlur={onBlur}
             onChangeText={newValue => onChange(newValue)}
             value={value}
+            marginBottom={15}
             secureTextEntry
           />
         )}
