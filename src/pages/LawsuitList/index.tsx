@@ -109,7 +109,7 @@ const data = {
             'Juntada de Petição\nNº Protocolo: WEB1.14.01152050-0\r\nTipo da Petição: Juntada de DAJE(s)\r\nData: 24/09/2014 21:01',
         },
         {
-          date: '2017-11-30T03:00:00.000Z',
+          date: '2017-05-30T03:00:00.000Z',
           description: 'Concluso para despacho',
         },
       ],
@@ -137,7 +137,7 @@ const data = {
             'Publicado\nRelação :0263/2014\r\nData da Disponibilização: 22/09/2014\r\nData da Publicação: 23/09/2014\r\nNúmero do Diário: 1279',
         },
         {
-          date: '2017-11-30T03:00:00.000Z',
+          date: '2017-10-30T03:00:00.000Z',
           description: 'Arquivado Provisoriamente',
         },
       ],
@@ -208,7 +208,7 @@ const data = {
       amount: 12000,
       historicals: [
         {
-          date: '2017-11-30T03:00:00.000Z',
+          date: '2017-11-25T03:00:00.000Z',
           description: 'Concluso para despacho',
         },
         {
@@ -698,7 +698,6 @@ const LawsuitList: React.FC = () => {
   //   }
   // }, [data]);
 
-
   const ListHeaderComponent = () => (
     <HeaderContainer>
       {isSearching ? (
@@ -741,7 +740,11 @@ const LawsuitList: React.FC = () => {
   );
 
   const LawsuitItem: React.FC<LawsuitItemProps> = ({ item }) => (
-    <ItemContainer onPress={() => navigation.navigate('lawsuit_details', { lawsuitData: item })}>
+    <ItemContainer
+      onPress={() =>
+        navigation.navigate('lawsuit_details', { lawsuitData: item })
+      }
+    >
       <Title>{item.title}</Title>
       <InfoLabelText>Número</InfoLabelText>
       <InfoText>{item.number}</InfoText>
