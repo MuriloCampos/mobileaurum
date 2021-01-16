@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useForm, Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 
 // import useLawsuits from '../../hooks/useLawsuits';
-// eslint-disable @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import LawsuitInterface from '../../interfaces/Lawsuit';
 import TextInput from '../../components/TextInput';
 import Title from '../../components/Title';
@@ -23,10 +22,6 @@ import {
 interface LawsuitItemProps {
   item: LawsuitInterface;
 }
-
-type FormData = {
-  search: string;
-};
 
 const data = {
   cases: [
@@ -670,20 +665,18 @@ const data = {
 const lawsuits: LawsuitInterface[] = data.cases;
 
 const LawsuitList: React.FC = () => {
-  const { control, handleSubmit } = useForm<FormData>();
   const [filteredData, setFilteredData] = useState<LawsuitInterface[]>([]);
   const [search, setSearch] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const navigation = useNavigation();
 
-  const onSubmit = (formData: FormData) => {
-    setSearch(formData.search);
-  };
-
   useEffect(() => {
     if (search !== '') {
       const filtered = lawsuits.filter(str => {
-        return str.title.toUpperCase().indexOf(search.toUpperCase()) !== -1;
+        return (
+          str.title.toUpperCase().indexOf(search.toUpperCase()) !== -1 ||
+          str.number.indexOf(search) !== -1
+        );
       });
 
       setFilteredData(filtered);
@@ -698,45 +691,38 @@ const LawsuitList: React.FC = () => {
   //   }
   // }, [data]);
 
-  const ListHeaderComponent = () => (
-    <HeaderContainer>
-      {isSearching ? (
-        <Controller
-          control={control}
-          render={({ onChange, onBlur, value }) => (
-            <TextInput
-              placeholder="Pesquisar"
-              onBlur={onBlur}
-              onChangeText={newValue => onChange(newValue)}
-              onSubmitEditing={handleSubmit(onSubmit)}
-              value={value}
-              width="85%"
-            />
-          )}
-          name="search"
-          defaultValue=""
-        />
-      ) : (
-        <HeaderTitle>Processos</HeaderTitle>
-      )}
-      <TouchableOpacity
-        onPress={() => {
-          setIsSearching(current => {
-            if (current) {
-              setSearch('');
-            }
+  const ListHeaderComponent = useCallback(
+    () => (
+      <HeaderContainer>
+        {isSearching ? (
+          <TextInput
+            placeholder="Pesquisar"
+            onChangeText={newValue => setSearch(newValue)}
+            width="85%"
+          />
+        ) : (
+          <HeaderTitle>Processos</HeaderTitle>
+        )}
+        <TouchableOpacity
+          onPress={() => {
+            setIsSearching(current => {
+              if (current) {
+                setSearch('');
+              }
 
-            return !current;
-          });
-        }}
-      >
-        <Icon
-          name={isSearching ? 'close' : 'search'}
-          color="#009ef5"
-          size={40}
-        />
-      </TouchableOpacity>
-    </HeaderContainer>
+              return !current;
+            });
+          }}
+        >
+          <Icon
+            name={isSearching ? 'close' : 'search'}
+            color="#009ef5"
+            size={40}
+          />
+        </TouchableOpacity>
+      </HeaderContainer>
+    ),
+    [isSearching]
   );
 
   const LawsuitItem: React.FC<LawsuitItemProps> = ({ item }) => (

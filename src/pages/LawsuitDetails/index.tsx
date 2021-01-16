@@ -1,12 +1,11 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import {
-  useRoute,
-  RouteProp,
-} from '@react-navigation/native';
-import { FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { useRoute, RouteProp } from '@react-navigation/native';
+import { FlatList, StyleSheet } from 'react-native';
 import NumberFormat from 'react-number-format';
 import { format, getYear, parseISO, isBefore } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import FaIcon from 'react-native-vector-icons/FontAwesome';
 
 import LawsuitInterface from '../../interfaces/Lawsuit';
 import HistoricalInterface from '../../interfaces/Historical';
@@ -14,6 +13,7 @@ import Title from '../../components/Title';
 import InfoLabelText from '../../components/InfoLabelText';
 import InfoText from '../../components/InfoText';
 import ItemSeparator from '../../components/ItemSeparator';
+import OrderByModal from '../../components/OrderByModal';
 
 import {
   HistoricalContainer,
@@ -26,6 +26,7 @@ import {
   HistoricalDescriptionContainer,
   HistoricalDescriptionText,
   HistoricalHeaderContainer,
+  OrderOptions,
 } from './styles';
 
 interface Item {
@@ -41,11 +42,6 @@ interface LawsuitHistoricalItemProps {
   itemData: HistoricalInterface;
 }
 
-interface orderTypes {
-  sort: 'date' | 'description';
-  order: 'asc' | 'desc';
-}
-
 type RouteParams = {
   data: {
     lawsuitData: LawsuitInterface;
@@ -56,39 +52,45 @@ const LawsuitDetails: React.FC = () => {
   const routeParams = useRoute<RouteProp<RouteParams, 'data'>>();
   const { lawsuitData } = routeParams.params;
   const [orderedData, setOrderedData] = useState<LawsuitInterface>(lawsuitData);
-  const [orderBy, setOrderBy] = useState<orderTypes>({
-    sort: 'date',
-    order: 'asc',
-  })
-
-  const sortByDate = useCallback(() => {
-    if (orderBy.order === 'desc') {
-      lawsuitData.historicals.sort((item, nextItem) => isBefore(parseISO(item.date), parseISO(nextItem.date)) ? 1 : -1)
-    } else {
-      lawsuitData.historicals.sort((item, nextItem) => isBefore(parseISO(nextItem.date), parseISO(item.date)) ? 1 : -1)
-    }
-
-    setOrderedData(lawsuitData);
-  }, []);
-
-  const sortByDescription = useCallback(() => {
-    if (orderBy.order === 'desc') {
-      lawsuitData.historicals.sort((item, nextItem) => item.description < nextItem.description ? 1 : -1);
-    } else {
-      lawsuitData.historicals.sort((item, nextItem) => nextItem.description < item.description ? 1 : -1);
-    }
-
-    setOrderedData(lawsuitData);
-  }, []);
+  const [sort, setSort] = useState<'date' | 'description'>('date');
+  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+  const [orderByModalVisible, setOrderByModalVisible] = useState(false);
 
   useEffect(() => {
-    if (orderBy.sort === 'date') {
-      sortByDate();
-    } else {
-      sortByDescription();
-    }
-  }, [orderBy])
+    if (sort === 'date') {
+      setOrderedData(current => {
+        const newData = current;
+        const orderedHistoricals =
+          order === 'desc'
+            ? newData.historicals.sort((item, nextItem) =>
+                isBefore(parseISO(item.date), parseISO(nextItem.date)) ? 1 : -1
+              )
+            : newData.historicals.sort((item, nextItem) =>
+                isBefore(parseISO(nextItem.date), parseISO(item.date)) ? 1 : -1
+              );
 
+        newData.historicals = orderedHistoricals;
+
+        return newData;
+      });
+    } else {
+      setOrderedData(current => {
+        const newData = current;
+        const orderedHistoricals =
+          order === 'desc'
+            ? newData.historicals.sort((item, nextItem) =>
+                item.description < nextItem.description ? 1 : -1
+              )
+            : newData.historicals.sort((item, nextItem) =>
+                nextItem.description < item.description ? 1 : -1
+              );
+
+        newData.historicals = orderedHistoricals;
+
+        return newData;
+      });
+    }
+  }, [sort, order]);
 
   const LawsuitInfo: React.FC<LawsuitInfoProps> = ({ itemData }) => (
     <InfoContainer>
@@ -127,12 +129,14 @@ const LawsuitDetails: React.FC = () => {
         />
       </InfoLineSpacing>
     </InfoContainer>
-  )
+  );
 
-  const LawsuitHistoricalItem: React.FC<LawsuitHistoricalItemProps> = ({ itemData }) => {
+  const LawsuitHistoricalItem: React.FC<LawsuitHistoricalItemProps> = ({
+    itemData,
+  }) => {
     const itemDate = parseISO(itemData.date);
     const itemDay = format(itemDate, 'dd');
-    const itemMonth = format(itemDate, 'MMMM', { locale: pt })
+    const itemMonth = format(itemDate, 'MMMM', { locale: pt });
     const itemYear = getYear(itemDate);
 
     return (
@@ -146,23 +150,30 @@ const LawsuitDetails: React.FC = () => {
 
         <HistoricalDescriptionContainer>
           <InfoLineSpacing>
-            <Title style={{ textTransform: 'capitalize' }}>{itemMonth}</Title>
+            <Title style={styles.title}>{itemMonth}</Title>
             <InfoLabelText>{itemYear}</InfoLabelText>
           </InfoLineSpacing>
 
-          <HistoricalDescriptionText>{itemData.description}</HistoricalDescriptionText>
+          <HistoricalDescriptionText>
+            {itemData.description}
+          </HistoricalDescriptionText>
         </HistoricalDescriptionContainer>
       </HistoricalContainer>
-    )
-
-  }
+    );
+  };
 
   const LawsuitHistoricalHeader = () => (
     <HistoricalHeaderContainer>
       <Title>HISTÓRICO</Title>
-      <Title>HISTÓRICO</Title>
+      <OrderOptions onPress={() => setOrderByModalVisible(true)}>
+        <InfoText>
+          {sort === 'date' ? 'Ordernar por data' : 'Ordenar por descrição'}
+        </InfoText>
+        <Icon style={styles.icon} name="arrow-drop-down" size={20} />
+        <FaIcon name={`sort-amount-${order}`} size={15} />
+      </OrderOptions>
     </HistoricalHeaderContainer>
-  )
+  );
 
   const LawsuitHistoricals: React.FC<LawsuitInfoProps> = ({ itemData }) => (
     <FlatList
@@ -171,33 +182,47 @@ const LawsuitDetails: React.FC = () => {
       renderItem={({ item }) => <LawsuitHistoricalItem itemData={item} />}
       ListHeaderComponent={<LawsuitHistoricalHeader />}
     />
-  )
+  );
 
-  const { data } = useMemo(() => {
-    const items: Item[] = [
-      {
-        key: 'LAWSUIT_INFO',
-        render: () => <LawsuitInfo itemData={orderedData} />
-      },
-      {
-        key: 'LAWSUIT_HISTORICAL',
-        render: () => <LawsuitHistoricals itemData={orderedData} />
-      }
-    ]
-
-    return {
-      data: items
-    }
-  }, [orderedData])
+  const data = [
+    {
+      key: 'LAWSUIT_INFO',
+      render: () => <LawsuitInfo itemData={orderedData} />,
+    },
+    {
+      key: 'LAWSUIT_HISTORICAL',
+      render: () => <LawsuitHistoricals itemData={orderedData} />,
+    },
+  ];
 
   return (
-    <FlatList
-      data={data}
-      keyExtractor={item => item.key}
-      renderItem={({ item }) => item.render()}
-      ItemSeparatorComponent={ItemSeparator}
-    />
+    <>
+      <FlatList
+        data={data}
+        keyExtractor={item => item.key}
+        renderItem={({ item }) => item.render()}
+        ItemSeparatorComponent={ItemSeparator}
+      />
+      <OrderByModal
+        modalVisible={orderByModalVisible}
+        setModalVisible={setOrderByModalVisible}
+        order={order}
+        setOrder={setOrder}
+        sort={sort}
+        setSort={setSort}
+      />
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  icon: {
+    marginLeft: 5,
+    marginRight: 10,
+  },
+  title: {
+    textTransform: 'capitalize',
+  },
+});
 
 export default LawsuitDetails;

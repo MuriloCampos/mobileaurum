@@ -58,3 +58,8 @@ export const HistoricalHeaderContainer = styled.View`
   flex-direction: row;
   padding: 10px 30px 0;
 `;
+
+export const OrderOptions = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+`;
