@@ -1,8 +1,9 @@
 import React from 'react';
 import Modal from 'react-native-modal';
-import { Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import Title from '../Title';
 import colors from '../../utils/colors';
 import Separator from '../ItemSeparator';
 
@@ -57,7 +58,7 @@ const OrderByModal: React.FC<ModalProps> = props => {
             color={sort === 'date' ? colors.lightBlue : colors.white}
             style={styles.check}
           />
-          <Text>Ordernar por data</Text>
+          <Title>Ordernar por data</Title>
         </ModalOption>
         <ModalOption onPress={() => handleSortChange('description')}>
           <Icon
@@ -66,10 +67,10 @@ const OrderByModal: React.FC<ModalProps> = props => {
             color={sort === 'description' ? colors.lightBlue : colors.white}
             style={styles.check}
           />
-          <Text>Ordernar por descrição</Text>
+          <Title>Ordernar por descrição</Title>
         </ModalOption>
 
-        <Separator />
+        <Separator style={styles.separator} />
 
         <ModalOption onPress={() => handleOrderChange('asc')}>
           <Icon
@@ -78,7 +79,7 @@ const OrderByModal: React.FC<ModalProps> = props => {
             color={order === 'asc' ? colors.lightBlue : colors.white}
             style={styles.check}
           />
-          <Text>Crescente</Text>
+          <Title>Crescente</Title>
         </ModalOption>
         <ModalOption onPress={() => handleOrderChange('desc')}>
           <Icon
@@ -87,7 +88,7 @@ const OrderByModal: React.FC<ModalProps> = props => {
             color={order === 'desc' ? colors.lightBlue : colors.white}
             style={styles.check}
           />
-          <Text>Decrescente</Text>
+          <Title>Decrescente</Title>
         </ModalOption>
       </Container>
     </Modal>
@@ -100,6 +101,10 @@ const styles = StyleSheet.create({
   },
   check: {
     marginRight: 15,
+  },
+  separator: {
+    marginTop: 20,
+    marginBottom: 20,
   },
 });
 

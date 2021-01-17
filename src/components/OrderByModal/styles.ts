@@ -9,10 +9,11 @@ export const Container = styled.View`
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
   elevation: 20;
+  padding-top: 30px;
 `;
 
 export const ModalOption = styled.TouchableOpacity`
-  padding: 20px;
+  padding: 10px 20px 10px 20px;
   flex-direction: row;
   align-items: center;
 `;
