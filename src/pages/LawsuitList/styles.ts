@@ -1,5 +1,7 @@
 import styled from 'styled-components/native';
 
+import colors from '../../utils/colors';
+
 export const Container = styled.View`
   flex: 1;
 `;
@@ -11,19 +13,19 @@ export const ItemContainer = styled.TouchableOpacity`
 export const LawsuitTitle = styled.Text`
   font-size: 15px;
   font-weight: 700;
-  color: #484f57;
+  color: ${colors.darkGrey};
   margin-bottom: 5px;
 `;
 
 export const NumberLabelText = styled.Text`
   font-size: 12px;
-  color: #a9a9a9;
+  color: ${colors.lightGrey};
   margin-bottom: 3px;
 `;
 
 export const LawsuitNumber = styled.Text`
   font-size: 15px;
-  color: #484f57;
+  color: ${colors.darkGrey};
 `;
 
 export const HeaderContainer = styled.View`
@@ -37,5 +39,5 @@ export const HeaderContainer = styled.View`
 export const HeaderTitle = styled.Text`
   font-size: 35px;
   font-weight: 500;
-  color: #484f57;
+  color: ${colors.darkGrey};
 `;

@@ -179,8 +179,8 @@ const LawsuitDetails: React.FC = () => {
           <FileInfoContainer>
             <FileInfoBox>
               <FileInfoText>
-                {`${file.name.split('.')[0].slice(0, 20)}.${
-                  file.name.split('.')[1]
+                {`${file.name.slice(0, 20)}${
+                  file.name.length > 20 ? '...' : ''
                 }`}
               </FileInfoText>
             </FileInfoBox>

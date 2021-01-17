@@ -5,7 +5,6 @@ export const Container = styled.View`
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 40%;
   background-color: ${colors.white};
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;

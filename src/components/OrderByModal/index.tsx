@@ -4,6 +4,7 @@ import { Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import colors from '../../utils/colors';
+import Separator from '../ItemSeparator';
 
 import { Container, ModalOption } from './styles';
 
@@ -67,6 +68,9 @@ const OrderByModal: React.FC<ModalProps> = props => {
           />
           <Text>Ordernar por descrição</Text>
         </ModalOption>
+
+        <Separator />
+
         <ModalOption onPress={() => handleOrderChange('asc')}>
           <Icon
             name="done"
