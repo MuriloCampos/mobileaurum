@@ -10,6 +10,6 @@ Você precisa estar com o ambiente React Native configurado para poder rodar est
 
 Este projeto utilizou o [boilerplate de TypeScript](https://github.com/react-native-community/react-native-template-typescript) disponibilizado pela comunidade, que já disponibiliza scripts para build.
 
-- Primeiro, na pasta raiz do projeto, instale as dependências necessárias rodando `yarn` ou `yarn install`
-- Com as dependências instaladas, execute `yarn start` para iniciar o React Native Bundler. E em seguida `yarn android` para iniciar o projeto em modo de desenvolvimento em um dispositivo físico conectado ao seu computador ou um emulador Android.
-- Para a versão de produção é disponibilizado o comando `yarn android:release`, porém é necessário [gerar uma keystore](https://reactnative.dev/docs/signed-apk-android) e atualizar o arquivo android/app/build.gradle.
+- Primeiro, na pasta raiz do projeto, instale as dependências necessárias rodando `yarn` ou `yarn install`;
+- Com as dependências instaladas, execute `yarn start` para iniciar o React Native Bundler. E em seguida `yarn android` para iniciar o projeto em modo de desenvolvimento em um dispositivo físico conectado ao seu computador ou um emulador Android;
+- Para instalar a versão de produção execute o comando `yarn android:release`, os apks gerados estarão disponíveis na pasta android/app/build/outputs/apk/release. É gerado um apk para cada tipo de arquitetura suportada e um universal caso você não tenha certeza de qual é a arquitetura do dispositivo (app-universal-release).
