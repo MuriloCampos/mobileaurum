@@ -1,9 +1,10 @@
 {
-  "name": "MobileAurum",
+  "name": "mobileaurum",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "android:release": "npx react-native run-android --variant=release",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
