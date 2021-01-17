@@ -16,6 +16,7 @@ import InfoLabelText from '../../components/InfoLabelText';
 import InfoText from '../../components/InfoText';
 import ItemSeparator from '../../components/ItemSeparator';
 import OrderByModal from '../../components/OrderByModal';
+import colors from '../../utils/colors';
 
 import {
   HistoricalContainer,
@@ -33,11 +34,6 @@ import {
   FileInfoBox,
   FileInfoText,
 } from './styles';
-
-interface Item {
-  key: string;
-  render: () => JSX.Element;
-}
 
 interface LawsuitInfoProps {
   itemData: LawsuitInterface;
@@ -90,7 +86,7 @@ const LawsuitDetails: React.FC = () => {
         style={styles.headerButton}
         onPress={handleDocumentPick}
       >
-        <Icon name="attach-file" size={25} color="#009ef5" />
+        <Icon name="attach-file" size={25} color={colors.lightBlue} />
       </TouchableOpacity>
     ),
     []
@@ -185,7 +181,7 @@ const LawsuitDetails: React.FC = () => {
               </FileInfoText>
             </FileInfoBox>
             <TouchableOpacity onPress={() => setFile(undefined)}>
-              <Icon name="close" size={25} />
+              <Icon name="close" size={25} color={colors.darkGrey} />
             </TouchableOpacity>
           </FileInfoContainer>
         </InfoLineSpacing>

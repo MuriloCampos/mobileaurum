@@ -41,7 +41,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const signIn = useCallback(async (credentials: SignInCredentials) => {
-    if (credentials.password === '123') {
+    if (credentials.password === 'aurumtest') {
       const user: User = {
         email: credentials.username,
         logged_in: true,

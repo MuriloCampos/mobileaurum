@@ -8,15 +8,22 @@ import PrimaryButton from '../../components/PrimaryButton';
 
 import { Container, FormTitle, ErrorText } from './styles';
 
+interface SignInCredentials {
+  username: string;
+  password: string;
+}
+
 const SignIn: React.FC = () => {
   const { signIn, user } = useAuth();
   const { control, handleSubmit, errors } = useForm();
   const [response, setResponse] = useState('');
 
-  const onSubmit = async data => {
+  const onSubmit = async (data: SignInCredentials) => {
     const signInResponse = await signIn(data);
 
-    setResponse(signInResponse);
+    if (signInResponse !== '') {
+      setResponse(signInResponse);
+    }
   };
 
   return (
@@ -33,6 +40,8 @@ const SignIn: React.FC = () => {
             onChangeText={newValue => onChange(newValue)}
             value={value}
             marginBottom={15}
+            autoCapitalize="none"
+            autoCorrect={false}
           />
         )}
         name="username"
@@ -51,6 +60,9 @@ const SignIn: React.FC = () => {
             value={value}
             marginBottom={15}
             secureTextEntry
+            autoCapitalize="none"
+            autoCorrect={false}
+            onSubmitEditing={handleSubmit(onSubmit)}
           />
         )}
         name="password"

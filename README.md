@@ -13,3 +13,7 @@ Este projeto utilizou o [boilerplate de TypeScript](https://github.com/react-nat
 - Primeiro, na pasta raiz do projeto, instale as dependências necessárias rodando `yarn` ou `yarn install`;
 - Com as dependências instaladas, execute `yarn start` para iniciar o React Native Bundler. E em seguida `yarn android` para iniciar o projeto em modo de desenvolvimento em um dispositivo físico conectado ao seu computador ou um emulador Android;
 - Para instalar a versão de produção execute o comando `yarn android:release`, os apks gerados estarão disponíveis na pasta android/app/build/outputs/apk/release. É gerado um apk para cada tipo de arquitetura suportada e um universal caso você não tenha certeza de qual é a arquitetura do dispositivo (app-universal-release).
+
+## Acesso
+
+Para efetuar o login basta informar um usuário (qualquer usuário) e a senha `aurumtest`
